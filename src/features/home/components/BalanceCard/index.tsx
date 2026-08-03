@@ -1,7 +1,7 @@
 import type { StyleProp, ViewStyle } from "react-native";
 import { StyleSheet, Text, View } from "react-native";
 
-import { colors, radius, typography } from "@/theme";
+import { colors, fontFamily, radius, size } from "@/theme";
 import { formatCurrency } from "@/utils/format";
 
 type BalanceCardProps = {
@@ -42,12 +42,14 @@ const styles = StyleSheet.create({
 		padding: 20,
 	},
 	label: {
-		...typography.caption,
+		...size.sm,
+		fontFamily: fontFamily.regular,
 		color: colors.white,
 		opacity: 0.6,
 	},
 	balance: {
-		...typography.display,
+		...size.xl,
+		fontFamily: fontFamily.extraBold,
 		color: colors.white,
 		marginTop: 4,
 	},
@@ -63,12 +65,14 @@ const styles = StyleSheet.create({
 		padding: 12,
 	},
 	pillLabel: {
-		...typography.micro,
+		...size.sm,
+		fontFamily: fontFamily.bold,
 		color: colors.white,
 		opacity: 0.6,
 	},
 	pillValue: {
-		...typography.labelLg,
+		...size.md,
+		fontFamily: fontFamily.semiBold,
 		color: colors.white,
 		marginTop: 4,
 	},

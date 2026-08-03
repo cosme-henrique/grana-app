@@ -1,7 +1,7 @@
 import type { StyleProp, ViewStyle } from "react-native";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-import { colors, fontFamily, radius, typography } from "@/theme";
+import { colors, fontFamily, radius, size } from "@/theme";
 
 type TabOption<T extends string> = {
 	label: string;
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
 		backgroundColor: colors.neutral.bgCard,
 	},
 	label: {
-		...typography.body,
+		...size.md,
 		fontFamily: fontFamily.semiBold,
 		color: colors.neutral.textMuted,
 	},

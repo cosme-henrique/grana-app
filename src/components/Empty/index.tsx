@@ -1,7 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { StyleSheet, Text, View } from "react-native";
 
-import { colors, typography } from "@/theme";
+import { colors, fontFamily, size } from "@/theme";
 
 type EmptyProps = {
 	title?: string;
@@ -39,12 +39,14 @@ const styles = StyleSheet.create({
 		marginBottom: 8,
 	},
 	title: {
-		...typography.title,
+		...size.lg,
+		fontFamily: fontFamily.bold,
 		color: colors.neutral.textStrong,
 		textAlign: "center",
 	},
 	description: {
-		...typography.body,
+		...size.md,
+		fontFamily: fontFamily.medium,
 		color: colors.neutral.textMuted,
 		textAlign: "center",
 	},

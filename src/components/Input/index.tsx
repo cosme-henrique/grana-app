@@ -3,7 +3,7 @@ import { useState } from "react";
 import type { TextInputProps } from "react-native";
 import { StyleSheet, TextInput, View } from "react-native";
 
-import { colors, radius, typography } from "@/theme";
+import { colors, fontFamily, radius, size } from "@/theme";
 
 type InputProps = TextInputProps & {
 	icon?: ReactNode;
@@ -46,7 +46,8 @@ const styles = StyleSheet.create({
 		paddingVertical: 14,
 		paddingHorizontal: 18,
 		color: colors.neutral.textStrong,
-		...typography.body,
+		...size.md,
+		fontFamily: fontFamily.medium,
 	},
 	inputWithIcon: {
 		paddingRight: 40,

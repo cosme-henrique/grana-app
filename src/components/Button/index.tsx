@@ -2,7 +2,7 @@ import type { StyleProp, ViewStyle } from "react-native";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
 import { Loading } from "@/components/Loading";
-import { colors, fontFamily, radius, typography } from "@/theme";
+import { colors, fontFamily, radius, size } from "@/theme";
 
 type ButtonVariant = "primary" | "secondary" | "danger";
 
@@ -84,6 +84,6 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 	},
 	text: {
-		...typography.labelLg,
+		...size.md,
 	},
 });

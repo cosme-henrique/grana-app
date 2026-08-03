@@ -1,7 +1,7 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 import type { TransactionStatus } from "@/models/Transaction";
-import { colors, fontFamily, radius, typography } from "@/theme";
+import { colors, fontFamily, radius, size } from "@/theme";
 
 type StatusOption = {
 	label: string;
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
 		backgroundColor: colors.neutral.bgCard,
 	},
 	label: {
-		...typography.labelLg,
+		...size.md,
 		fontFamily: fontFamily.bold,
 		color: colors.neutral.textStrong,
 	},

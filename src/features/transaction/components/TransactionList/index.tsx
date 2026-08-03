@@ -1,9 +1,9 @@
 import { SectionList, StyleSheet, Text, View } from "react-native";
 
 import { Empty } from "@/components/Empty";
-import { TransactionCard } from "@/components/TransactionCard";
+import { TransactionCard } from "@/features/transaction/components/TransactionCard";
 import type { Transaction } from "@/models/Transaction";
-import { colors, typography } from "@/theme";
+import { colors, fontFamily, size } from "@/theme";
 
 const statusOrder: Transaction["status"][] = ["overdue", "pending", "paid"];
 
@@ -103,11 +103,13 @@ const styles = StyleSheet.create({
 		borderRadius: 3,
 	},
 	sectionTitle: {
-		...typography.micro,
+		...size.sm,
+		fontFamily: fontFamily.bold,
 		color: colors.neutral.textStrong,
 	},
 	sectionCount: {
-		...typography.micro,
+		...size.sm,
+		fontFamily: fontFamily.bold,
 		color: colors.neutral.textMuted,
 	},
 	separator: {

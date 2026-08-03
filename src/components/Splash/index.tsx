@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from "react-native";
 
 import { GMark } from "@/components/Logo";
-import { colors, fontFamily, radius, typography } from "@/theme";
+import { colors, fontFamily, radius, size } from "@/theme";
 
 export function Splash() {
 	return (
@@ -32,12 +32,13 @@ const styles = StyleSheet.create({
 		marginBottom: 16,
 	},
 	title: {
-		...typography.heading,
+		...size.lg,
 		fontFamily: fontFamily.extraBold,
 		color: colors.white,
 	},
 	subtitle: {
-		...typography.body,
+		...size.md,
+		fontFamily: fontFamily.medium,
 		color: colors.white,
 		opacity: 0.6,
 		marginTop: 4,

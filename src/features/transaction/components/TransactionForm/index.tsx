@@ -7,24 +7,48 @@ import { Button } from "@/components/Button";
 import { Divider } from "@/components/Divider";
 import { FormField } from "@/components/FormField";
 import { Input } from "@/components/Input";
-import { StatusSelector } from "@/components/StatusSelector";
-import { type IncomeFormData, incomeSchema } from "@/schemas/incomeSchema";
+import { StatusSelector } from "@/features/transaction/components/StatusSelector";
+import {
+	type TransactionFormData,
+	transactionSchema,
+} from "@/features/transaction/schemas/transactionSchema";
+import type { TransactionType } from "@/models/Transaction";
 import { colors } from "@/theme";
 import { formatCurrency } from "@/utils/format";
 import { maskDate } from "@/utils/mask";
 
-type IncomeFormProps = {
-	onSubmit: (data: IncomeFormData) => void;
-	defaultValues?: IncomeFormData;
+const copy: Record<
+	TransactionType,
+	{ namePlaceholder: string; dueDateLabel: string }
+> = {
+	expense: {
+		namePlaceholder: "Ex: Cartão de crédito",
+		dueDateLabel: "Data de vencimento",
+	},
+	income: {
+		namePlaceholder: "Ex: Salário",
+		dueDateLabel: "Data de recebimento",
+	},
 };
 
-export function IncomeForm({ onSubmit, defaultValues }: IncomeFormProps) {
+type TransactionFormProps = {
+	type: TransactionType;
+	onSubmit: (data: TransactionFormData) => void;
+	defaultValues?: TransactionFormData;
+};
+
+export function TransactionForm({
+	type,
+	onSubmit,
+	defaultValues,
+}: TransactionFormProps) {
+	const { namePlaceholder, dueDateLabel } = copy[type];
 	const {
 		control,
 		handleSubmit,
 		formState: { isValid },
-	} = useForm<IncomeFormData>({
-		resolver: zodResolver(incomeSchema),
+	} = useForm<TransactionFormData>({
+		resolver: zodResolver(transactionSchema),
 		mode: "onChange",
 		defaultValues: defaultValues ?? {
 			name: "",
@@ -42,7 +66,7 @@ export function IncomeForm({ onSubmit, defaultValues }: IncomeFormProps) {
 				render={({ field, fieldState }) => (
 					<FormField label="Nome da conta" error={fieldState.error?.message}>
 						<Input
-							placeholder="Ex: Salário"
+							placeholder={namePlaceholder}
 							value={field.value}
 							onChangeText={field.onChange}
 						/>
@@ -77,7 +101,7 @@ export function IncomeForm({ onSubmit, defaultValues }: IncomeFormProps) {
 				name="dueDate"
 				render={({ field, fieldState }) => (
 					<FormField
-						label="Data de recebimento"
+						label={dueDateLabel}
 						error={fieldState.error?.message}
 						style={styles.field}
 					>
