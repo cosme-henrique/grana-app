@@ -2,7 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-import { colors, radius, typography } from "@/theme";
+import { colors, fontFamily, radius, size } from "@/theme";
 
 type BackHeaderProps = {
 	title: string;
@@ -42,7 +42,8 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 	},
 	title: {
-		...typography.title,
+		...size.lg,
+		fontFamily: fontFamily.bold,
 		color: colors.neutral.textStrong,
 	},
 });

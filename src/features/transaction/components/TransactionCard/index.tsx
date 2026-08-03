@@ -2,7 +2,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 import { Badge } from "@/components/Badge";
 import type { Transaction } from "@/models/Transaction";
-import { colors, fontFamily, radius, typography } from "@/theme";
+import { colors, fontFamily, radius, size } from "@/theme";
 import { formatCurrency, formatShortDate } from "@/utils/format";
 
 const statusMap = {
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 	},
 	avatarLabel: {
-		...typography.body,
+		...size.md,
 		fontFamily: fontFamily.bold,
 		color: colors.neutral.textStrong,
 	},
@@ -91,12 +91,12 @@ const styles = StyleSheet.create({
 		gap: 2,
 	},
 	name: {
-		...typography.body,
+		...size.md,
 		fontFamily: fontFamily.extraBold,
 		color: colors.neutral.textStrong,
 	},
 	dueDate: {
-		...typography.caption,
+		...size.sm,
 		fontFamily: fontFamily.bold,
 		color: colors.neutral.textMuted,
 	},
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
 		gap: 6,
 	},
 	amount: {
-		...typography.labelLg,
+		...size.md,
 		fontFamily: fontFamily.bold,
 	},
 	badge: {

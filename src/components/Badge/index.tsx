@@ -1,7 +1,7 @@
 import type { StyleProp, ViewStyle } from "react-native";
 import { StyleSheet, Text, View } from "react-native";
 
-import { colors, radius, typography } from "@/theme";
+import { colors, fontFamily, radius, size } from "@/theme";
 
 type BadgeVariant = keyof typeof colors.status;
 
@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
 		borderRadius: radius.full,
 	},
 	text: {
-		...typography.micro,
+		...size.sm,
+		fontFamily: fontFamily.bold,
 	},
 });

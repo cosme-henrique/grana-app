@@ -1,81 +1,45 @@
-import { useFocusEffect } from "@react-navigation/native";
-import { router } from "expo-router";
-import { useCallback, useState } from "react";
 import { StyleSheet, Text } from "react-native";
 
-import { BalanceCard } from "@/components/BalanceCard";
+import { BalanceCard } from "@/features/home/components/BalanceCard";
 import { Container } from "@/components/Container";
 import { FloatingButton } from "@/components/FloatingButton";
 import { Logo } from "@/components/Logo";
 import { Modal } from "@/components/Modal";
-import { MonthSelector } from "@/components/MonthSelector";
-import { TransactionActions } from "@/components/TransactionActions";
-import { TransactionList } from "@/components/TransactionList";
-import type { Transaction } from "@/models/Transaction";
-import { transactionRepository } from "@/repositories";
-import { colors, typography } from "@/theme";
-import { calculateBalance } from "@/utils/balance";
+import { MonthSelector } from "@/features/home/components/MonthSelector";
+import { TransactionActions } from "@/features/transaction/components/TransactionActions";
+import { TransactionList } from "@/features/transaction/components/TransactionList";
+import { useHomeScreen } from "@/features/home/hooks/useHomeScreen";
+import { colors, fontFamily, size } from "@/theme";
 
 export default function HomePage() {
-	const [date, setDate] = useState(new Date());
-	const [transactions, setTransactions] = useState<Transaction[]>([]);
-	const [selectedTransaction, setSelectedTransaction] =
-		useState<Transaction | null>(null);
-
-	const fetchTransactions = useCallback(() => {
-		transactionRepository.updateOverdueTransactions().then(() => {
-			transactionRepository
-				.findByMonth(date.getMonth() + 1, date.getFullYear())
-				.then(setTransactions);
-		});
-	}, [date]);
-
-	useFocusEffect(fetchTransactions);
-
-	async function handleDelete() {
-		if (!selectedTransaction) {
-			return;
-		}
-
-		await transactionRepository.delete(selectedTransaction.id);
-		setSelectedTransaction(null);
-		fetchTransactions();
-	}
-
-	async function handleMarkAsPaid(transaction: Transaction) {
-		await transactionRepository.update({ ...transaction, status: "paid" });
-		fetchTransactions();
-	}
+	const screen = useHomeScreen();
 
 	return (
 		<Container>
 			<Logo variant="header" />
 			<Text style={styles.title}>Visão geral</Text>
-			<MonthSelector date={date} onChange={setDate} />
-			<BalanceCard {...calculateBalance(transactions)} />
+			<MonthSelector date={screen.date} onChange={screen.onChangeDate} />
+			<BalanceCard {...screen.balance} />
 			<TransactionList
-				transactions={transactions}
-				onSelectTransaction={setSelectedTransaction}
-				onMarkAsPaid={handleMarkAsPaid}
+				transactions={screen.transactions}
+				onSelectTransaction={screen.onSelectTransaction}
+				onMarkAsPaid={screen.onMarkAsPaid}
 			/>
-			{selectedTransaction === null ? (
+			{screen.selectedTransaction === null ? (
 				<FloatingButton
-					onPress={() => router.push("/new-transaction")}
+					onPress={screen.onCreateNew}
 					style={styles.floatingButton}
 				/>
 			) : null}
 			<Modal
-				visible={selectedTransaction !== null}
-				onClose={() => setSelectedTransaction(null)}
+				visible={screen.selectedTransaction !== null}
+				onClose={screen.onCloseModal}
 			>
-				{selectedTransaction ? (
+				{screen.selectedTransaction ? (
 					<TransactionActions
-						transaction={selectedTransaction}
-						onEdit={() => {
-							router.push(`/edit-transaction/${selectedTransaction.id}`);
-							setSelectedTransaction(null);
-						}}
-						onDelete={handleDelete}
+						transaction={screen.selectedTransaction}
+						onEdit={screen.onEdit}
+						onDelete={screen.onDelete}
 					/>
 				) : null}
 			</Modal>
@@ -85,7 +49,8 @@ export default function HomePage() {
 
 const styles = StyleSheet.create({
 	title: {
-		...typography.heading,
+		...size.lg,
+		fontFamily: fontFamily.extraBold,
 		color: colors.neutral.textStrong,
 	},
 	floatingButton: {

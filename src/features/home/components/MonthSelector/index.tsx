@@ -2,7 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import type { StyleProp, ViewStyle } from "react-native";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-import { colors, radius, typography } from "@/theme";
+import { colors, fontFamily, radius, size } from "@/theme";
 import { formatMonthYear } from "@/utils/format";
 
 type MonthSelectorProps = {
@@ -56,7 +56,8 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 20,
 	},
 	label: {
-		...typography.labelLg,
+		...size.md,
+		fontFamily: fontFamily.semiBold,
 		color: colors.neutral.textStrong,
 	},
 });

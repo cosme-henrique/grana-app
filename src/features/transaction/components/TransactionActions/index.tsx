@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from "react-native";
 
 import { Button } from "@/components/Button";
 import type { Transaction } from "@/models/Transaction";
-import { colors, fontFamily, typography } from "@/theme";
+import { colors, fontFamily, size } from "@/theme";
 import { formatCurrency, formatShortDate } from "@/utils/format";
 
 type TransactionActionsProps = {
@@ -44,12 +44,12 @@ export function TransactionActions({
 
 const styles = StyleSheet.create({
 	title: {
-		...typography.title,
+		...size.lg,
 		fontFamily: fontFamily.extraBold,
 		color: colors.neutral.textStrong,
 	},
 	subtitle: {
-		...typography.body,
+		...size.md,
 		fontFamily: fontFamily.bold,
 		color: colors.neutral.textMuted,
 		marginTop: 4,

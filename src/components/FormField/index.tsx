@@ -2,7 +2,7 @@ import type { PropsWithChildren } from "react";
 import type { StyleProp, ViewStyle } from "react-native";
 import { StyleSheet, Text, View } from "react-native";
 
-import { colors, fontFamily, typography } from "@/theme";
+import { colors, fontFamily, size } from "@/theme";
 
 type FormFieldProps = PropsWithChildren<{
 	label: string;
@@ -22,13 +22,14 @@ export function FormField({ label, error, style, children }: FormFieldProps) {
 
 const styles = StyleSheet.create({
 	label: {
-		...typography.body,
+		...size.md,
 		fontFamily: fontFamily.bold,
 		color: colors.neutral.textStrong,
 		marginBottom: 4,
 	},
 	error: {
-		...typography.caption,
+		...size.sm,
+		fontFamily: fontFamily.regular,
 		color: colors.status.atrasado.fg,
 		marginTop: 4,
 	},
