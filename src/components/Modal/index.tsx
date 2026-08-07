@@ -1,8 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import type { PropsWithChildren } from "react";
-import { useEffect, useRef } from "react";
+import { useState } from "react";
 import {
-	Animated,
 	Dimensions,
 	Modal as RNModal,
 	Pressable,
@@ -10,10 +9,14 @@ import {
 	TouchableOpacity,
 	View,
 } from "react-native";
+import Animated from "react-native-reanimated";
 
+import { useFade, useSlide } from "@/animations";
 import { colors, radius } from "@/theme";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
+
+const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 type ModalProps = PropsWithChildren<{
 	visible: boolean;
@@ -21,19 +24,14 @@ type ModalProps = PropsWithChildren<{
 }>;
 
 export function Modal({ visible, onClose, children }: ModalProps) {
-	const translateY = useRef(new Animated.Value(SCREEN_HEIGHT)).current;
+	const [isOpen, setIsOpen] = useState(false);
+	const sheetStyle = useSlide(isOpen ? 0 : SCREEN_HEIGHT, "y");
+	const backdropStyle = useFade(isOpen ? 1 : 0);
 
-	useEffect(() => {
-		if (visible) {
-			Animated.timing(translateY, {
-				toValue: 0,
-				duration: 250,
-				useNativeDriver: true,
-			}).start();
-		} else {
-			translateY.setValue(SCREEN_HEIGHT);
-		}
-	}, [visible, translateY]);
+	function handleClose() {
+		setIsOpen(false);
+		onClose();
+	}
 
 	return (
 		<RNModal
@@ -41,14 +39,18 @@ export function Modal({ visible, onClose, children }: ModalProps) {
 			transparent
 			animationType="none"
 			statusBarTranslucent
-			onRequestClose={onClose}
+			onShow={() => setIsOpen(true)}
+			onRequestClose={handleClose}
 		>
-			<Pressable style={styles.backdrop} onPress={onClose} />
-			<Animated.View style={[styles.sheet, { transform: [{ translateY }] }]}>
+			<AnimatedPressable
+				style={[styles.backdrop, backdropStyle]}
+				onPress={handleClose}
+			/>
+			<Animated.View style={[styles.sheet, sheetStyle]}>
 				<View style={styles.handle} />
 				<TouchableOpacity
 					activeOpacity={0.8}
-					onPress={onClose}
+					onPress={handleClose}
 					style={styles.closeButton}
 				>
 					<Ionicons name="close" size={20} color={colors.neutral.textStrong} />

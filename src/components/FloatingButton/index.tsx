@@ -1,8 +1,13 @@
 import { Ionicons } from "@expo/vector-icons";
 import type { StyleProp, ViewStyle } from "react-native";
 import { StyleSheet, TouchableOpacity } from "react-native";
+import Animated from "react-native-reanimated";
 
+import { useScale } from "@/animations";
 import { colors, radius } from "@/theme";
+
+const AnimatedTouchableOpacity =
+	Animated.createAnimatedComponent(TouchableOpacity);
 
 type FloatingButtonProps = {
 	onPress: () => void;
@@ -15,15 +20,24 @@ export function FloatingButton({
 	disabled,
 	style,
 }: FloatingButtonProps) {
+	const { style: scaleStyle, onPressIn, onPressOut } = useScale();
+
 	return (
-		<TouchableOpacity
+		<AnimatedTouchableOpacity
 			onPress={onPress}
+			onPressIn={onPressIn}
+			onPressOut={onPressOut}
 			activeOpacity={0.8}
 			disabled={disabled}
-			style={[styles.button, disabled && styles.buttonDisabled, style]}
+			style={[
+				styles.button,
+				disabled && styles.buttonDisabled,
+				scaleStyle,
+				style,
+			]}
 		>
 			<Ionicons name="add" size={28} color={colors.white} />
-		</TouchableOpacity>
+		</AnimatedTouchableOpacity>
 	);
 }
 

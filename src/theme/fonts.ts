@@ -25,6 +25,6 @@ export const fontFamily = {
 export const size = {
 	sm: { fontSize: 12, lineHeight: 18 },
 	md: { fontSize: 14, lineHeight: 21 },
-	lg: { fontSize: 24, lineHeight: 30 },
+	lg: { fontSize: 20, lineHeight: 26 },
 	xl: { fontSize: 34, lineHeight: 37.4 },
 } as const;

@@ -1,7 +1,12 @@
-import type { StyleProp, ViewStyle } from "react-native";
+import { useState } from "react";
+import type { LayoutChangeEvent, StyleProp, ViewStyle } from "react-native";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import Animated from "react-native-reanimated";
 
+import { useSlide } from "@/animations";
 import { colors, fontFamily, radius, size } from "@/theme";
+
+const CONTAINER_PADDING = 6;
 
 type TabOption<T extends string> = {
 	label: string;
@@ -21,8 +26,23 @@ export function Tabs<T extends string>({
 	onChange,
 	style,
 }: TabsProps<T>) {
+	const [containerWidth, setContainerWidth] = useState(0);
+	const contentWidth = containerWidth - CONTAINER_PADDING * 2;
+	const itemWidth = contentWidth / options.length;
+	const selectedIndex = options.findIndex((option) => option.value === value);
+	const indicatorStyle = useSlide(selectedIndex * itemWidth);
+
+	function handleLayout(event: LayoutChangeEvent) {
+		setContainerWidth(event.nativeEvent.layout.width);
+	}
+
 	return (
-		<View style={[styles.container, style]}>
+		<View style={[styles.container, style]} onLayout={handleLayout}>
+			{containerWidth > 0 ? (
+				<Animated.View
+					style={[styles.indicator, { width: itemWidth }, indicatorStyle]}
+				/>
+			) : null}
 			{options.map((option) => {
 				const isSelected = option.value === value;
 
@@ -31,7 +51,7 @@ export function Tabs<T extends string>({
 						key={option.value}
 						activeOpacity={0.8}
 						onPress={() => onChange(option.value)}
-						style={[styles.tab, isSelected && styles.tabSelected]}
+						style={styles.tab}
 					>
 						<Text style={[styles.label, isSelected && styles.labelSelected]}>
 							{option.label}
@@ -48,7 +68,15 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		backgroundColor: colors.neutral.border,
 		borderRadius: radius.md,
-		padding: 6,
+		padding: CONTAINER_PADDING,
+	},
+	indicator: {
+		position: "absolute",
+		top: CONTAINER_PADDING,
+		bottom: CONTAINER_PADDING,
+		left: CONTAINER_PADDING,
+		backgroundColor: colors.neutral.bgCard,
+		borderRadius: radius.sm,
 	},
 	tab: {
 		flex: 1,
@@ -56,9 +84,6 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 		paddingVertical: 12,
 		borderRadius: radius.sm,
-	},
-	tabSelected: {
-		backgroundColor: colors.neutral.bgCard,
 	},
 	label: {
 		...size.md,

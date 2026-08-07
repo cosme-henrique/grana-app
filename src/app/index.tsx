@@ -1,5 +1,7 @@
 import { StyleSheet, Text } from "react-native";
+import Animated from "react-native-reanimated";
 
+import { useFade } from "@/animations";
 import { BalanceCard } from "@/features/home/components/BalanceCard";
 import { Container } from "@/components/Container";
 import { FloatingButton } from "@/components/FloatingButton";
@@ -13,6 +15,8 @@ import { colors, fontFamily, size } from "@/theme";
 
 export default function HomePage() {
 	const screen = useHomeScreen();
+	const isModalOpen = screen.selectedTransaction !== null;
+	const floatingButtonStyle = useFade(isModalOpen ? 0 : 1);
 
 	return (
 		<Container>
@@ -25,12 +29,12 @@ export default function HomePage() {
 				onSelectTransaction={screen.onSelectTransaction}
 				onMarkAsPaid={screen.onMarkAsPaid}
 			/>
-			{screen.selectedTransaction === null ? (
-				<FloatingButton
-					onPress={screen.onCreateNew}
-					style={styles.floatingButton}
-				/>
-			) : null}
+			<Animated.View
+				style={[styles.floatingButton, floatingButtonStyle]}
+				pointerEvents={isModalOpen ? "none" : "auto"}
+			>
+				<FloatingButton onPress={screen.onCreateNew} />
+			</Animated.View>
 			<Modal
 				visible={screen.selectedTransaction !== null}
 				onClose={screen.onCloseModal}

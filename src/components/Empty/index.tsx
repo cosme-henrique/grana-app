@@ -1,6 +1,9 @@
 import { Ionicons } from "@expo/vector-icons";
-import { StyleSheet, Text, View } from "react-native";
+import { useEffect, useState } from "react";
+import { StyleSheet, Text } from "react-native";
+import Animated from "react-native-reanimated";
 
+import { useFade } from "@/animations";
 import { colors, fontFamily, size } from "@/theme";
 
 type EmptyProps = {
@@ -12,17 +15,24 @@ export function Empty({
 	title = "Nenhuma conta por aqui ainda",
 	description = "Toque no botão + para adicionar sua primeira conta.",
 }: EmptyProps) {
+	const [isVisible, setIsVisible] = useState(false);
+	const fadeStyle = useFade(isVisible ? 1 : 0);
+
+	useEffect(() => {
+		setIsVisible(true);
+	}, []);
+
 	return (
-		<View style={styles.container}>
+		<Animated.View style={[styles.container, fadeStyle]}>
 			<Ionicons
 				name="wallet-outline"
 				size={48}
-				color={colors.neutral.textMuted}
+				color={colors.neutral.textStrong}
 				style={styles.icon}
 			/>
 			<Text style={styles.title}>{title}</Text>
 			<Text style={styles.description}>{description}</Text>
-		</View>
+		</Animated.View>
 	);
 }
 

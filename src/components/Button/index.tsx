@@ -1,8 +1,13 @@
 import type { StyleProp, ViewStyle } from "react-native";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import Animated from "react-native-reanimated";
 
+import { useScale } from "@/animations";
 import { Loading } from "@/components/Loading";
 import { colors, fontFamily, radius, size } from "@/theme";
+
+const AnimatedTouchableOpacity =
+	Animated.createAnimatedComponent(TouchableOpacity);
 
 type ButtonVariant = "primary" | "secondary" | "danger";
 
@@ -53,13 +58,21 @@ export function Button({
 		? colors.neutral.textMuted
 		: variantStyle.borderColor;
 	const color = isDisabled ? colors.white : variantStyle.color;
+	const { style: scaleStyle, onPressIn, onPressOut } = useScale();
 
 	return (
-		<TouchableOpacity
+		<AnimatedTouchableOpacity
 			onPress={onPress}
+			onPressIn={onPressIn}
+			onPressOut={onPressOut}
 			activeOpacity={0.8}
 			disabled={isDisabled}
-			style={[styles.container, { backgroundColor, borderColor }, style]}
+			style={[
+				styles.container,
+				{ backgroundColor, borderColor },
+				scaleStyle,
+				style,
+			]}
 		>
 			{isLoading ? (
 				<Loading color={color} />
@@ -70,7 +83,7 @@ export function Button({
 					{title}
 				</Text>
 			)}
-		</TouchableOpacity>
+		</AnimatedTouchableOpacity>
 	);
 }
 
