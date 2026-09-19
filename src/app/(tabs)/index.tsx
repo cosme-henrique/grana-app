@@ -19,7 +19,7 @@ export default function HomePage() {
 	const floatingButtonStyle = useFade(isModalOpen ? 0 : 1);
 
 	return (
-		<Container>
+		<Container edges={["top", "left", "right"]}>
 			<Logo variant="header" />
 			<Text style={styles.title}>Visão geral</Text>
 			<MonthSelector date={screen.date} onChange={screen.onChangeDate} />
